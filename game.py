@@ -39,6 +39,9 @@ intro_bard = 'Бездельник и кутила, записался в Лег
 intro_fight = f'Ты входишь в тренировочную комнату видишь перед собой {dummy_name}' \
               f'Твоя задача разрушить столб быстрее, чем устанешь\n\n'
 
+attack_1_name = 'Сильный удар'
+attack_2_name = 'Быстрый удар'
+
 train_win_text = f'{dummy_name} повержен! Поздравляю, да ты герой!\n\n'
 train_tired_text = 'У тебя больше нет сил продолжать схватку. Отдохни немного и приходи снова\n'
 
@@ -65,7 +68,7 @@ print(BEGIN_2)
 print(intro_char_choice)
 
 while True:
-    inp_char_class = input('Система: Выберете ответ 1, 2, 3 или 4:\n>>')
+    inp_char_class = input('Система: Выберете ответ 1, 2, 3 или 4:\n>>')  # 5.2
     if inp_char_class != '1' and inp_char_class != '2' and inp_char_class != '3' and inp_char_class != '4':
         print('Такая личность в системе не обнаружена')
     else:
@@ -109,7 +112,7 @@ elif inp_char_class == '4':
 win = 0
 print(command_help_text)
 while True:
-    if win == 1: # Выход из игры если победил
+    if win == 1:  # Выход из игры если победил
         break
 
     action = input('Введи команду: \n>> ')
@@ -146,13 +149,13 @@ while True:
         print(intro_fight)
 
         while True:  # разные удары
-            inp_hit = input('Выбери удар: 1 сильный, 2 быстрый: ')
+            inp_hit = input(f'Выбери удар: 1 {attack_1_name}, 2 {attack_2_name}: ')
             if inp_hit == '1':
-                print(f'{hero_name} делает Сильный удар\n')
+                print(f'{hero_name} делает {attack_1_name}\n')
                 hit_damage = damage * 2
                 hit_stamina = damage * 3
             elif inp_hit == '2':
-                print(f'{hero_name} делает быстрый удар\n')
+                print(f'{hero_name} делает {attack_2_name}\n')
                 hit_damage = damage
                 hit_stamina = damage
             else:
