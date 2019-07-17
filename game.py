@@ -165,7 +165,7 @@ all_enemies = [
     {
         'name': 'Вышибала',
         'role_name': 'warrior',
-        'hp': 50,
+        'hp': 1500,
         'max_hp': 1500,
         'damage': 15,
         'max_stamina': 1000,
