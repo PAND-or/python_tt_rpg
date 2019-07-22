@@ -50,58 +50,66 @@ attack_2_name = 'Быстрый удар'
 train_win_text = f'{dummy_name} повержен! Поздравляю, да ты герой!\n\n'
 train_tired_text = 'У тебя больше нет сил продолжать схватку. Отдохни немного и приходи снова\n'
 
-actions_text = '“history”, “help”, “train”, “exit”, “stats”'
+actions_text = '\n“history” - Лор игры, \n“help” - Помощ по командам, \n“train” - Тренировка, ' \
+               '\n“exit” - Выход из игры, \n“stats” - Статистика героя'
+commands = ('exit', 'history', 'help', 'stats', 'train', 'start')  # 2.4.1
 
 command_error_text = f'{lieutenant_name}: Я не понимаю, чего ты хочешь, выбери доступную команду или напищи help'
 command_help_text = f'Герой, выбери одну из команд {actions_text} для совершения действия.'
 
+command_help_text += '\n“start” - Начало игры'  # 2.4.3
 
 """
 DICTIONARIES
 """
 
 #  2.2.1 - 2.2.3
+
+warrior = {
+    'hello_test': intro_warrior,
+    'choice text': f'Ты сын своего отца...',
+    'role_name': 'warrior',
+    'hp': 300,
+    'max_hp': 300,
+    'damage': 15,
+    'max_stamina': 100,
+    'armor': 2,
+}
+robber = {
+    'hello_test': intro_robber,
+    'choice text': f'Ты начал жить в трущебах городских',
+    'role_name': 'robber',
+    'hp': 200,
+    'max_hp': 200,
+    'damage': 20,
+    'max_stamina': 300,
+    'armor': 1,
+}
+geek = {
+    'hello_test': intro_geek,
+    'choice text': f'Ты был батаником в школе-интернате',
+    'role_name': 'geek',
+    'hp': 200,
+    'max_hp': 200,
+    'damage': 12,
+    'max_stamina': 200,
+    'armor': 5,
+}
+bard = {
+    'hello_test': intro_bard,
+    'choice text': f'Вся твоя жизнь кутеж ..',
+    'role_name': 'bard',
+    'hp': 500,
+    'max_hp': 500,
+    'damage': 12,
+    'max_stamina': 100,
+    'armor': 0,
+}
 roles = {
-    'warrior': {
-        'hello_test': intro_warrior,
-        'choice text': f'Ты сын своего отца...',
-        'role_name': 'warrior',
-        'hp': 3000, #1695
-        'max_hp': 3000, #870
-        'damage': 30, #492 attack
-        'max_stamina': 1000,
-        'armor': 5, #532
-    },
-    'robber': {
-        'hello_test': intro_robber,
-        'choice text': f'Ты начал жить в трущебах городских',
-        'role_name': 'robber',
-        'hp': 2000, #591
-        'max_hp': 2000, #444
-        'damage': 40, #685 attack
-        'max_stamina': 3000,
-        'armor': 2,
-    },
-    'geek': {
-        'hello_test': intro_geek,
-        'choice text': f'Ты был батаником в школе-интернате',
-        'role_name': 'geek',
-        'hp': 2000, #1024
-        'max_hp': 2000,
-        'damage': 25, #3 4 False -2
-        'max_stamina': 2000, #750
-        'armor': 9,
-    },
-    'bard': {
-        'hello_test': intro_bard,
-        'choice text': f'Вся твоя жизнь кутеж ..',
-        'role_name': 'bard',
-        'hp': 5000, #1353
-        'max_hp': 5000,
-        'damage': 25, #1560
-        'max_stamina': 1000,
-        'armor': 2,
-    }
+    'w': warrior,
+    'r': robber,
+    'g': geek,
+    'b': bard,
 }
 
 # 2.6.8
@@ -123,33 +131,8 @@ dict_move = {
     }
 }
 
-chest = [
-    {
-        'name': 'Lубинка',
-        'modificator': 'damage',
-        'rule': 'add',
-        'value': 3,
-    },
-    {
-        'name': 'Карбоновая броня',
-        'modificator': 'armor',
-        'rule': 'add',
-        'value': 3,
-    },
-    {
-        'name': 'Ремонтные нано-боты',
-        'modificator': 'armor',
-        'rule': 'heal',
-        'value': 1,
-    },
-]
-
 
 # На случай добавления нового класса или удара, сразу добавлю во все тексты описание этого класса
-
-chest_str = ''
-for i, v in enumerate(chest):
-    chest_str += f'{i}. {v["name"]}, '
 
 moves_str = ''
 for k, v in dict_move.items():
@@ -165,38 +148,38 @@ all_enemies = [
     {
         'name': 'Вышибала',
         'role_name': 'warrior',
-        'hp': 1500,
-        'max_hp': 1500,
-        'damage': 15,
-        'max_stamina': 1000,
+        'hp': 150,
+        'max_hp': 150,
+        'damage': 7,
+        'max_stamina': 100,
         'armor': 5
     },
     {
         'name': 'Гопник',
         'role_name': 'robber',
-        'hp': 1000,
-        'max_hp': 1000,
-        'damage': 20,
-        'max_stamina': 1500,
+        'hp': 100,
+        'max_hp': 100,
+        'damage': 10,
+        'max_stamina': 150,
         'armor': 2,
     },
     {
         'name': 'Ботаник',
         'role_name': 'geek',
-        'hp': 750,
-        'max_hp': 750,
-        'damage': 10,
-        'max_stamina': 2250,
-        'armor': 7,
+        'hp': 75,
+        'max_hp': 75,
+        'damage': 5,
+        'max_stamina': 225,
+        'armor': 1,
     },
     {
         'name': 'Пьяный дебошир',
         'role_name': 'bard',
-        'hp': 2250,
-        'max_hp': 2250,
-        'damage': 5,
-        'max_stamina': 750,
-        'armor': 2,
+        'hp': 225,
+        'max_hp': 225,
+        'damage': 2,
+        'max_stamina': 75,
+        'armor': 0,
     },
 ]
 
@@ -204,10 +187,10 @@ all_enemies = [
 instructor = {
     'name': dummy_name,
     'role_name': 'bard',
-    'hp': 2250,
-    'max_hp': 2250,
+    'hp': 225,
+    'max_hp': 225,
     'damage': 5,
-    'max_stamina': 750,
+    'max_stamina': 75,
     'armor': 2,
 }
 
@@ -245,8 +228,7 @@ while True:
 
 
 artifact = False
-commands = ('exit', 'history', 'help', 'stats', 'train', 'start')  # 2.4.1
-command_help_text += '\n `start` - начало игры'  # 2.4.3
+
 print(command_help_text)
 
 # 1.5.4
@@ -295,20 +277,19 @@ while True:
                   f'{enemy["armor"]:^10}\n')
 
             hero["fight_stamina"] = hero["max_stamina"]  # Возможность отдышаться после битвы
-            while True:  # 2.6.2
-                if hero["hp"] <= 0 or enemy["hp"] <=0: # 2.6.6
-                    break
-
+            while hero["hp"] > 0 and enemy["hp"] > 0:  # 2.6.2 и # 2.6.6
                 if hero["fight_stamina"] <= (hero["damage"] * 2):  #  Если герой устал, он пропускает ход
                     hero["fight_stamina"] += hero["damage"] * 4
-                    print('Ты очень устал, передохни раунд')
                     hit_hero_damage = 0
+                    move = 'default'
+                    move_name = 'Очень слабый удар'
                 else:
                     move = input(f'Выбери удар {moves_str}\n>> ')
                     move = move if move in dict_move else 'default'
 
                     hit_hero_damage = round(hero["damage"] * dict_move[move]['damage_modificator']) - enemy["armor"]
                     hit_hero_stamina = hero["damage"] * 2
+                    move_name = dict_move[move]["name"]
 
                 hit_enemy_damage = enemy["damage"] - round(hero["armor"] * dict_move[move]['armor_modificator'])
 
@@ -316,7 +297,8 @@ while True:
                 hit_enemy_damage = hit_enemy_damage if hit_enemy_damage >= 0 else 0
                 hit_hero_damage = hit_hero_damage if hit_hero_damage >= 0 else 0
 
-                print(f'{hero_name} делает {dict_move[move]["name"]} и наносит {hit_hero_damage} урона {enemy["name"]}\n')
+                print(f'{hero_name} делает {move_name} и наносит {hit_hero_damage} урона {enemy["name"]}\n')
+                print(f'В ответ {enemy["name"]} наносит {hero_name} {hit_hero_damage} урона \n')
 
                 hero["fight_stamina"] -= hit_hero_stamina
                 hero["hp"] -= hit_enemy_damage
@@ -328,34 +310,12 @@ while True:
                       f'{hero_name:<20}{hero["hp"]:>10}/{hero["max_hp"]:<10}'
                       f'{hero["fight_stamina"]:>10}/{hero["max_stamina"]:<10}\n')
 
-
             if hero["hp"] > 0:
                 win_strike += 1
-                print(f'Ты обыскиваешь врага и обнаруживаешь {chest_str}')
-                chest_inp = input('Что ты возьмешь (or skip)?\n>> ')
-
-                if int(chest_inp) >= 0 and int(chest_inp) < len(chest):
-                    item = chest[int(chest_inp)]
-                    print(f'Ты взял {item["name"]}\n\n')
-
-                    if item['rule'] == 'add':
-                        hero[item['modificator']] += item['value']
-                    elif item['rule'] == 'heal':
-                        hero["hp"] = hero["max_hp"] * item['value']
-                    chest.remove(item)
-                    chest_str = ''
-                    for i, v in enumerate(chest):
-                        chest_str += f'{i}. {v["name"]}, '
-                elif chest_inp == 'skip':
-                    print('Ты решил ничего не брать')
-                else:
-                    print('Долго перебирая варианты ты случайно закрыл сундук')
 
         if win_strike == need_to_win:  # Если всех победили
             artifact = True
             print('Нашел')
-
-        print(win_strike, need_to_win, artifact, hero["hp"])
 
 
     # 1.6
@@ -413,7 +373,7 @@ while True:
                 print(train_win_text)
                 break
 
-            # 6
+            # 1.6
             print(f'{"Name":<20}{"HP":>10}/{"MAX HP":<10}{"Stamina":>10}/{"Max stamina":<10}\n'
                   f'{instructor["name"]:<20}{instructor["hp"]:>10}/{instructor["max_hp"]:<10}'
                   f'{instructor["max_stamina"]:>10}/{instructor["max_stamina"]:<10}\n'
