@@ -1,4 +1,4 @@
-from dictionaries_v2 import *
+from dictionaries import *
 
 """
 

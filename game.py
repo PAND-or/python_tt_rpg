@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 __author__ = "Андрей Петров"
-from dictionaries_v2 import *
-from fynctions_v2 import *
+from dictionaries import *
+from fynctions import *
 
 """
 
