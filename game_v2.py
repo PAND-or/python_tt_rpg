@@ -10,36 +10,33 @@ GAME
 """
 
 # 1.5.3
-say(LORE)
+say('LORE')
 pause()
-say(BEGIN_1)
+say('BEGIN_1')
 
 # 1.5.1
-hero_name = input(f'{lieutenant_name}: Легат, назови свое имя: \n>> ')
+hero_name = sinput('game_input_heroname')
 
 # 2.1
 if not hero_name.istitle():
     hero_name = hero_name.capitalize()
 
-BEGIN_2 = f'Добро пожаловать {hero_name} на свое первое задание\n'
-
-
-say(BEGIN_2, lieutenant_name)
+say('game_begin_2', hero_name)
 pause()
-say(intro_char_choice)
+say('intro_char_choice')
 
 while True:
-    inp_char_class = input(f'Система: Выберете ответ {roles_str}:\n>> ')  # 1.5.2
+    inp_char_class = sinput('game_input_roles', roles_str)  # 1.5.2
     if inp_char_class in roles:
         hero = roles[inp_char_class]
-        say(f'Я .... {hero["hello_text"]}', hero_name)
+        say('game_roles_chosen', hero["hello_text"])
         break
     else:
-        say('Такая личность в системе не обнаружена', lieutenant_name)
+        say('game_roles_errchoise')
 
 hero['name'] = hero_name
-
-say(command_menu_text)
+say('game_briffing')
+say('command_menu_text')
 
 commands = {
     'exit': {
@@ -75,7 +72,7 @@ while True:
     #  2.3.2
     if not is_alive(hero) or hero["win_all"]:  # Выход из игры если победил или умер
         break
-    action = input('Введи команду: \n>> ').lower()  # 2.4.2
+    action = sinput('game_input_actions').lower()  # 2.4.2
     if action in commands:
         execute(commands, action)
     else:

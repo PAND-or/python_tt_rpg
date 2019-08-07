@@ -8,47 +8,51 @@ FUNCTIONS
 
 
 def menu():
-    print(command_menu_text)
+    say('command_menu_text')
 
 
 def history():
-    print(LORE)
+    say('LORE')
 
 
 def train(hero, instructor):
-    instructor_change = input('Желаете ли поменять дефолтные значения Тренеровочного боя? Y or N:\n>> ').lower()
+    instructor_change = sinput('train_input_def').lower()
     if instructor_change == 'y':
         # 1.6.1
 
-        instructor['max_hp'] = int(input('Введите кол-во жизней инструктора:\n>> '))
+        instructor['max_hp'] = int(sinput('train_input_hp'))
         instructor['hp'] = instructor['max_hp']
-        hero['train_damage'] = int(input('Введите силу удара:\n>> '))
+        hero['train_damage'] = int(sinput('train_input_dmg'))
 
         if hero['train_damage'] > instructor['max_hp']:
             hero['train_damage'] = instructor['max_hp'] * 0.25
-            print(f'Не корректное значение урона. Новое значение: {hero["train_damage"]}')
+            say('train_input_corhp', hero["train_damage"])
 
     else:
         instructor["hp"] = instructor["max_hp"]  # Обнуление жизней
         hero["train_damage"] = hero["damage"]
 
-    print(intro_train_fight)
+    say('intro_train_fight')
 
     while True:  # удары
         hit_damage = do_hit(hero["damage"], instructor["armor"])
         instructor["hp"] -= hit_damage
-        print(f'{hero["name"]} нанес {hit_damage} урона')
-        print(f'{instructor["name"]}: {instructor["hp"]}/{instructor["max_hp"]}\n')
-        input('press ENTER to continue\n')
+
+        say('hit_result', hero["name"], hit_damage, instructor["name"])
+        say('hp_show', instructor["name"], show_hp(instructor))
+
+        pause()
 
         if instructor['hp'] <= 0:  # Если жизней осталось 0 то победа
-            print(train_win_text)
+            say('train_win_text')
             break
 
 
 def stats(person):
+    skip_list = ['hello_text', 'win_all', 'choice_text', 'name']
     for k, v in person.items():
-        print(f'{k}: {v}')
+        if k not in skip_list:
+            print(f'{k}: {v}')
 
 
 def show_hp(person):
@@ -60,7 +64,7 @@ def is_alive(person):
 
 
 def pause():
-    input('\nPress ENTER to continue >>>\n')
+    sinput('pause_text')
 
 
 def do_hit(dmg, armor):
@@ -77,10 +81,10 @@ def fight(hero, enemy):
         hero["hp"] -= enemy_hit
         enemy["hp"] -= hero_hit
 
-        print(f'{hero["name"]} наносит {hero_hit} урона по {enemy["name"]}\n'
-              f'{enemy["name"]}: {show_hp(enemy)}\n'
-              f'{enemy["name"]} наносит {enemy_hit} урона по {hero["name"]}\n'
-              f'{hero["name"]}: {show_hp(hero)}\n')
+        say('hit_result', hero["name"], hero_hit, enemy["name"])
+        say('hp_show', enemy["name"], show_hp(enemy))
+        say('hit_result', enemy["name"], enemy_hit, hero["name"])
+        say('hp_show', hero["name"], show_hp(hero))
 
         pause()
 
@@ -89,7 +93,7 @@ def fight(hero, enemy):
 
 def fight_all(hero, all_enemies):
     for enemy in all_enemies:
-        say(intro_enemy_fight + enemy["name"])
+        say('intro_enemy_fight', enemy["name"])
         stats(enemy)
         pause()
         fight(hero, enemy)
@@ -109,11 +113,19 @@ def start(hero, all_enemies):
         hero['end_state'] = 'lose'
 
 
-def say(text, speaker=None):
-    if not speaker is None:
-        print(f'{speaker}: {text} \n')
+def say(key, *args):
+    if key in TEXTS:
+        if args:
+            print(TEXTS[key] % args)
+        else:
+            print(TEXTS[key])
     else:
-        print(f'{text} \n')
+        print(key)
+
+
+def sinput(key, *args):
+    say(key, *args)
+    return input('>> ')
 
 
 def execute(fdict, key):
