@@ -74,6 +74,13 @@ hit_result = '%s наносит %s урона по %s'
 hp_show = '%s: %s'
 
 
+choice_items_list = 'Тебе доступна одна модификация:\n%s\n'
+choice_items_input = 'Введи код модификаии'
+choice_items_error = 'Ошибка. Модификация с таким кодом не найдена. Отказ в доступе на улучшение'
+
+move_empty_room = 'Оглядевшись вокруг, ты не замечаешь ничего ни обычного'
+move_chest_room = 'Войдя в квартал ты находишь чью-то пустую оболочку. Непременно надо достать из нее чипы'
+move_enemy_room = 'Ты замечаешь агрессивно настроенного гражданина'
 
 """
 DICTIONARIES
@@ -86,7 +93,7 @@ warrior = {
     'role_name': 'warrior',
     'hp': 300,
     'max_hp': 300,
-    'damage': 15,
+    'damage': 10,
     'armor': 2,
 }
 robber = {
@@ -95,7 +102,7 @@ robber = {
     'role_name': 'robber',
     'hp': 200,
     'max_hp': 200,
-    'damage': 20,
+    'damage': 15,
     'armor': 1,
 }
 geek = {
@@ -104,7 +111,7 @@ geek = {
     'role_name': 'geek',
     'hp': 200,
     'max_hp': 200,
-    'damage': 12,
+    'damage': 7,
     'armor': 5,
 }
 bard = {
@@ -113,7 +120,7 @@ bard = {
     'role_name': 'bard',
     'hp': 500,
     'max_hp': 500,
-    'damage': 12,
+    'damage': 7,
     'armor': 0,
 }
 
@@ -131,38 +138,74 @@ for k, v in roles.items():
     roles_str += f'{k}, '
     intro_char_choice += f'{k}: {v["choice_text"]}  \n'
 
+chest_list = [
+    {
+        'name': 'Attack',
+        'text': 'Улучшение оружия',
+        'min': 1,
+        'max': 3,
+        'rule': 'add',
+        'value': 'damage'
+    },
+    {
+        'name': 'Defend',
+        'text': 'Улучшение брони',
+        'min': 1,
+        'max': 3,
+        'rule': 'add',
+        'value': 'armor'
+    },
+    {
+        'name': 'Endurance',
+        'text': 'Увеличение максимального запаса жизни',
+        'min': 10,
+        'max': 30,
+        'rule': 'add',
+        'value': 'max_hp'
+    },
+    {
+        'name': 'Heal',
+        'text': 'Лечение',
+        'min': 10,
+        'max': 100,
+        'rule': 'restore',
+        'value': 'hp'
+    }
+]
+
+
 # 2.5.1
 all_enemies = [
     {
         'name': 'Вышибала',
         'role_name': 'warrior',
-        'hp': 150,
-        'max_hp': 150,
-        'damage': 7,
+        'hp': 75,
+        'max_hp': 75,
+        'damage': 2,
         'armor': 5
     },
     {
         'name': 'Гопник',
         'role_name': 'robber',
-        'hp': 100,
-        'max_hp': 100,
-        'damage': 10,
+        'hp': 50,
+        'max_hp': 50,
+        'damage': 5,
         'armor': 2,
     },
     {
         'name': 'Ботаник',
         'role_name': 'geek',
-        'hp': 75,
-        'max_hp': 75,
-        'damage': 5,
+        'hp': 45,
+        'max_hp': 45,
+        'damage': 0,
         'armor': 1,
     },
     {
         'name': 'Пьяный дебошир',
         'role_name': 'bard',
-        'hp': 225,
-        'max_hp': 225,
-        'damage': 2,
+        'hp': 150,
+        'max_hp': 150,
+        'damage': 0,
         'armor': 0,
     },
 ]
@@ -210,5 +253,11 @@ TEXTS = {
     'game_roles_chosen': game_roles_chosen,
     'game_roles_errchoise': game_roles_errchoise,
     'game_input_actions': game_input_actions,
-    'game_briffing': game_briffing
+    'game_briffing': game_briffing,
+    'choice_items_list': choice_items_list,
+    'choice_items_input': choice_items_input,
+    'choice_items_error': choice_items_error,
+    'move_empty_room': move_empty_room,
+    'move_chest_room': move_chest_room,
+    'move_enemy_room': move_enemy_room,
 }

@@ -68,6 +68,7 @@ commands = {
 
 hero["win_all"] = False
 
+
 while True:
     #  2.3.2
     if not is_alive(hero) or hero["win_all"]:  # Выход из игры если победил или умер
