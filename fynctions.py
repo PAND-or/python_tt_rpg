@@ -63,6 +63,7 @@ def show_map(my_map):
     print(my_map)
     print('___' * 25)
 
+
 def move(my_map, hero, all_enemies):
     start_cell = len(my_map)
     for i, cell in enumerate(my_map):
@@ -78,7 +79,7 @@ def move(my_map, hero, all_enemies):
             say('move_empty_room')
         elif cell == '$':
             say('move_chest_room')
-            chose_from_chest(hero)
+            choose_from_chest(hero)
         elif isinstance(cell, int):
             #say('move_enemy_room')
             fight(hero, all_enemies[cell])
@@ -90,38 +91,70 @@ def move(my_map, hero, all_enemies):
 
 
 def use_item(item, person):
-    k = item['value']
+    k = item['key']
     if item['rule'] == 'add':
-        person[k] += random.randint(item['min'], item['max'])
+        person[k] += item['value']
     elif item['rule'] == 'restore':
         k_max = 'max_' + k
         if k_max in person:
-            new_value = int(person[k] + ((person[k_max] * random.randint(item['min'], item['max'])/ 100)))
+            new_value = int(person[k] + ((person[k_max] * item['value'])/ 100))
             if new_value > person[k_max]:  #Что-бы не хилило больше 100%
                 person[k] = person[k_max]
             else:
                 person[k] = new_value
+    say('preson_update')
+    stats(person)
 
 
-def chose_from_chest(person):
-    items_count = random.randint(1, 3)
-    items_list = random.sample(chest_list, items_count)
+def get_chest(lst=chest_list, items_count=2):
+    roll = roll_master_dice()
+    print(f'Бросок {roll}')
+    nofart = False
+    if roll == 13 or roll < 3:
+        items_count = 1
+        nofart = True
 
+    for _ in range(random.randint(1, items_count)):
+        idx = random.randrange(len(lst))
+        tmp = lst[idx].copy()
+        val = random.randint(tmp['min'], tmp['max'])
+        itm = {
+            'name': f'{tmp["name"]} +{val}{tmp["text"]}'.capitalize(),
+            'text': tmp["text"],
+            'rule': tmp["rule"],
+            'key': tmp["key"]
+        }
+        if nofart:
+            itm['value'] = 0
+            itm['name'] += broken_item_name
+        else:
+            itm['value'] = val
+            itm['name'] += good_item_name
+        yield itm
+
+
+def choose_from_chest(person):
+    items_list = list(get_chest())
     choice_items_str = f''
+
     for i, v in enumerate(items_list):
-        choice_items_str += f'{i}: {v["text"]} \n'
+        choice_items_str += f'{i}: {v["name"]} \n'
 
     say('choice_items_list', choice_items_str)
-    inp = sinput('choice_items_input')
 
-    if len(inp) > 0 and inp.isdigit():
-        if 0 <= int(inp) < len(items_list):
-            use_item(items_list[inp], person)
+    while True:
+        inp = sinput('choice_items_input')
+        if len(inp) > 0 and inp.isdigit():
+            _k = int(inp)
+            if 0 <= _k < len(items_list):
+                print(_k)
+                use_item(items_list[_k], person)
+                break
+            else:
+                say('choice_items_error')
+                break
         else:
-            say('choice_items_error')
-    else:
-        say('choice_items_error')
-
+            say('choice_items_reinput')
 
 def stats(person):
     skip_list = ['hello_text', 'win_all', 'choice_text', 'name']

@@ -11,7 +11,7 @@ GAME
 
 # 1.5.3
 say('LORE')
-pause()
+#pause()
 say('BEGIN_1')
 
 # 1.5.1
@@ -22,7 +22,7 @@ if not hero_name.istitle():
     hero_name = hero_name.capitalize()
 
 say('game_begin_2', hero_name)
-pause()
+#pause()
 say('intro_char_choice')
 
 while True:
